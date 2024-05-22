@@ -1,17 +1,72 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "A_CharacterBase.h"
 #include "A_Player.generated.h"
 
-/**
- * 
- */
+//class AA_WeaponBase;
+class AA_MainCamera;
+class UA_MovementInput;
+
 UCLASS()
 class ASTERISK_API AA_Player : public AA_CharacterBase
 {
 	GENERATED_BODY()
-	
+
+		////////////////////// override function
+public:
+	AA_Player();
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+	virtual void BeginPlay() override;
+	////////////////////// custom function
+public:
+	void MoveForward(const float InValue);
+	void MoveAcceleration(const float InValue);
+	void MoveRight(const float InValue);
+	void MoveJump();
+	void MoveDash();
+	void StopMoveDash();
+
+	void BeginNormalAttack();
+	void EndNormalAttack();
+	void HomingAttack();
+	void LaserAttack();
+
+	void HomingShoot();
+	void LockOn();
+	void LongRangeAttack();
+
+	// 振り向き速度
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float rotationSpeed = 8.0f;
+	// ダッシュ速度
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float dashSpeed = 1500.0f;
+
+	//ASF_EnemyBase* GetLockOnTarget();
+	//bool GetLockOnStatus();
+	//
+	//UFUNCTION(BlueprintCallable)
+	//	ASF_WeaponBase* GetWeapon() const { return Weapon; };
+	//UPROPERTY(BlueprintReadWrite)
+	//	ASF_WeaponBase* Weapon = nullptr;
+
+	////////////////////// BlueprintImplementableEvent
+	UFUNCTION(BlueprintImplementableEvent)
+		void Init();
+
+	AA_MainCamera* m_pCamera;
+
+private:
+	// ISF_DamageableInterface を介して継承されました
+	//virtual void GetDamage(int32 damage) override;
+	/// @brief プレイヤーの状態を常に変更
+	void UpdateSetPlayerState();
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+		UA_MovementInput* MovementInputComponent;
 };
