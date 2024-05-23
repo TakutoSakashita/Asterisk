@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -12,37 +12,38 @@ class ASF_Shield;
 UENUM(BlueprintType)
 enum class ESF_CharacterState : uint8
 {
-	None = 0			UMETA(DisplayName = "‚È‚µ"),
-	Normal				UMETA(DisplayName = "’Êí"),
-	BeginAttack			UMETA(DisplayName = "UŒ‚ŠJn"),
-	ShortRangeAttack	UMETA(DisplayName = "‹ß‹——£UŒ‚"),
-	LongRangeAttack		UMETA(DisplayName = "‰“‹——£UŒ‚"),
-	EndAttack			UMETA(DisplayName = "UŒ‚I—¹"),
-	Float				UMETA(DisplayName = "•‚—V’†"),
-	Fly					UMETA(DisplayName = "”ò—ˆ’†"),
-	BeginDead			UMETA(DisplayName = "€–SŠJn"),
-	Dead				UMETA(DisplayName = "€–S’†"),
-	EndDead				UMETA(DisplayName = "€–SI—¹"),
+	None = 0			UMETA(DisplayName = "ãªã—"),
+	Normal				UMETA(DisplayName = "é€šå¸¸æ™‚"),
+	BeginAttack			UMETA(DisplayName = "æ”»æ’ƒé–‹å§‹æ™‚"),
+	ShortRangeAttack	UMETA(DisplayName = "è¿‘è·é›¢æ”»æ’ƒ"),
+	LongRangeAttack		UMETA(DisplayName = "é è·é›¢æ”»æ’ƒ"),
+	EndAttack			UMETA(DisplayName = "æ”»æ’ƒçµ‚äº†æ™‚"),
+	Avoid				UMETA(DisplayName = "å›é¿ä¸­"),
+	Float				UMETA(DisplayName = "æµ®éŠä¸­"),
+	Fly					UMETA(DisplayName = "é£›æ¥ä¸­"),
+	BeginDead			UMETA(DisplayName = "æ­»äº¡é–‹å§‹æ™‚"),
+	Dead				UMETA(DisplayName = "æ­»äº¡ä¸­"),
+	EndDead				UMETA(DisplayName = "æ­»äº¡çµ‚äº†æ™‚"),
 };
 
-// ƒLƒƒƒ‰ƒNƒ^[‹¤’Ê‚Ìî•ñ‚ğ‚Ü‚Æ‚ß‚½\‘¢‘Ì
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼å…±é€šã®æƒ…å ±ã‚’ã¾ã¨ã‚ãŸæ§‹é€ ä½“
 USTRUCT(BlueprintType)
 struct FSF_CharacterInfo
 {
 	GENERATED_BODY()
 
 public:
-	// Å‘åHP
+	// æœ€å¤§HP
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float MaxHP;
-	// ˆÚ“®‘¬“x
+	// ç§»å‹•é€Ÿåº¦
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float MoveSpeed;
 
-	// ‹ßÚUŒ‚‰Â”\‹——£
+	// è¿‘æ¥æ”»æ’ƒå¯èƒ½è·é›¢
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float AttackableDistance_ShortRange;
-	// ‰“‹——£UŒ‚‰Â”\‹——£
+	// é è·é›¢æ”»æ’ƒå¯èƒ½è·é›¢
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float AttackableDistance_LongRange;
 
@@ -70,10 +71,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	// ƒLƒƒƒ‰ƒNƒ^[‚Ìó‘Ô
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®çŠ¶æ…‹
 	UPROPERTY(VisibleAnywhere, Category = "Visible | State")
 		ESF_CharacterState CharacterState;
-	// ƒLƒƒƒ‰ƒNƒ^[‚Ìƒpƒ‰ƒ[ƒ^î•ñ
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æƒ…å ±
 	UPROPERTY(EditAnywhere, Category = "Edit | Param")
 		FSF_CharacterInfo CharacterParam;
 
@@ -86,7 +87,7 @@ public:
 		void SetCharacterState(const ESF_CharacterState InCharacterState) { CharacterState = InCharacterState; }
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		ESF_CharacterState GetCharacterState() { return CharacterState; }
-	/// @brief €–S‚µ‚Ä‚¢‚é‚©
+	/// @brief æ­»äº¡ã—ã¦ã„ã‚‹ã‹
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		bool IsDead() const {
 		return  CharacterState == ESF_CharacterState::BeginDead ||
@@ -94,24 +95,24 @@ public:
 			CharacterState == ESF_CharacterState::EndDead ?
 			true : false;
 	}
-	/// @brief ‹ß‹——£UŒ‚‚ğ‚µ‚Ä‚¢‚é‚©
+	/// @brief è¿‘è·é›¢æ”»æ’ƒã‚’ã—ã¦ã„ã‚‹ã‹
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		bool IsAttack_ShortRange() const { return CharacterState == ESF_CharacterState::ShortRangeAttack ? true : false; }
-	/// @brief ‰“‹——£UŒ‚‚ğ‚µ‚Ä‚¢‚é‚©
+	/// @brief é è·é›¢æ”»æ’ƒã‚’ã—ã¦ã„ã‚‹ã‹
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		bool IsAttack_LongRange() const { return CharacterState == ESF_CharacterState::LongRangeAttack ? true : false; }
 	
-	/// @brief ‹ß‹——£UŒ‚‰Â”\‹——£‚ğİ’è
+	/// @brief è¿‘è·é›¢æ”»æ’ƒå¯èƒ½è·é›¢ã‚’è¨­å®š
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		void SetAttackableDistance_ShortRange(const float InValue) { CharacterParam.AttackableDistance_ShortRange = InValue; }
-	/// @brief ‰“‹——£UŒ‚‰Â”\‹——£‚ğİ’è
+	/// @brief é è·é›¢æ”»æ’ƒå¯èƒ½è·é›¢ã‚’è¨­å®š
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		void SetAttackableDistance_LongRange(const float InValue) { CharacterParam.AttackableDistance_LongRange = InValue; }
 
-	/// @brief ‹ß‹——£UŒ‚‰Â”\‹——£‚ğæ“¾
+	/// @brief è¿‘è·é›¢æ”»æ’ƒå¯èƒ½è·é›¢ã‚’å–å¾—
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		float GetAttackableDistance_ShortRange() const { return CharacterParam.AttackableDistance_ShortRange; }
-	/// @brief ‰“‹——£UŒ‚‰Â”\‹——£‚ğæ“¾
+	/// @brief é è·é›¢æ”»æ’ƒå¯èƒ½è·é›¢ã‚’å–å¾—
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		float GetAttackableDistance_LongRange() const { return CharacterParam.AttackableDistance_LongRange; }
 
@@ -130,6 +131,6 @@ private:
 	virtual void UpdateOnDead(const float InDeltaTime) {}
 	virtual void OnEndDead() {}
 
-	// ISF_DamageableInterface ‚ğ‰î‚µ‚ÄŒp³‚³‚ê‚Ü‚µ‚½
+	// ISF_DamageableInterface ã‚’ä»‹ã—ã¦ç¶™æ‰¿ã•ã‚Œã¾ã—ãŸ
 	//virtual void GetDamage(int32 damage) override;
 };

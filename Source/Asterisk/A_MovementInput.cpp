@@ -26,7 +26,6 @@ void UA_MovementInput::BeginPlay()
 	ensure(m_pCharacter != nullptr);
 	m_pMainCamera = Cast<AA_MainCamera>(GetOwner());
 	ensure(m_pCharacter != nullptr);
-	
 }
 
 void UA_MovementInput::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -78,11 +77,13 @@ void UA_MovementInput::MoveDash()
 {
 	if (!GetPlayerCharacter()) return;
 	if (!GetMainCamera()) return;
+
 	GetPlayerCharacter()->SetCharacterState(ESF_CharacterState::Fly);
+
 	// キャラクターとカメラの正面方向を足してその向きにダッシュするように
 	AddForce(GetPlayerCharacter()->GetActorForwardVector());
-	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = MaxAcceleration;
 
+	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = MaxAcceleration;
 }
 
 void UA_MovementInput::StopMoveDash()
@@ -91,13 +92,13 @@ void UA_MovementInput::StopMoveDash()
 	GetPlayerCharacter()->SetCharacterState(ESF_CharacterState::Normal);
 
 	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = InitAcceleration;
-
 }
 
 void UA_MovementInput::MoveJump()
 {
 	if (!GetPlayerCharacter()) return;
 	if (!GetMainCamera()) return;
+
 	m_pCharacter->GetCharacterMovement()->Velocity = FVector::Zero();
 
 	// 入力方向に移動
