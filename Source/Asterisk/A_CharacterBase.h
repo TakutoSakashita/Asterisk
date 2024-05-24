@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-//#include "A_DamageableInterface.h"
+#include "A_DamageableInterface.h"
 #include "A_CharacterBase.generated.h"
 
 class ASF_EquipmentBase;
@@ -57,7 +57,7 @@ public:
 };
 
 UCLASS()
-class ASTERISK_API AA_CharacterBase : public ACharacter//, public ISF_DamageableInterface
+class ASTERISK_API AA_CharacterBase : public ACharacter, public IA_DamageableInterface
 {
 	GENERATED_BODY()
 
@@ -132,5 +132,5 @@ private:
 	virtual void OnEndDead() {}
 
 	// ISF_DamageableInterface を介して継承されました
-	//virtual void GetDamage(int32 damage) override;
+	virtual void GetDamage(int32 damage) override {};
 };

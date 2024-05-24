@@ -38,13 +38,20 @@ void AA_Player::BeginPlay()
 
 	//test
 	Init();
-
 }
 
-//void AA_Player::GetDamage(int32 damage)
-//{
-//	Debug::PrintFixedLine("GetDamage Player");
-//}
+void AA_Player::GetDamage(int32 damage)
+{
+	SetCurretnHP(GetCurrentHP() - damage);
+
+	Debug::Print("A_Player,GetDamage(), CurrentHp = " + FString::FromInt(GetCurrentHP()));
+
+	if (GetCurrentHP() < 1)
+	{
+		SetCharacterState(ESF_CharacterState::Dead);
+		//this->Destroy()
+	}
+}
 
 /// @brief プレイヤーの状態を常に変更
 void AA_Player::UpdateSetPlayerState()

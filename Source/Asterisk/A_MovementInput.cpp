@@ -90,8 +90,10 @@ void UA_MovementInput::StopMoveDash()
 {
 	if (!GetPlayerCharacter()) return;
 	GetPlayerCharacter()->SetCharacterState(ESF_CharacterState::Normal);
+	AnimInstance = GetPlayerCharacter()->GetMesh()->GetAnimInstance();
 
 	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = InitAcceleration;
+	AnimInstance->Montage_Stop(0.2f,ComboMontage);
 }
 
 void UA_MovementInput::MoveJump()
@@ -140,11 +142,19 @@ void UA_MovementInput::UpdateGravity(float DeltaTime)
 	GetMainCamera()->SetViewPoint(GetPlayerCharacter()->GetActorLocation());
 
 	// •‚—V’†
-	if (GetPlayerCharacter()->GetCharacterState() == ESF_CharacterState::Float) return;
-	// ”òãÄ’†
-	if (GetPlayerCharacter()->GetCharacterState() == ESF_CharacterState::Fly)return;
+	//if (GetPlayerCharacter()->GetCharacterState() == ESF_CharacterState::Float) return;
 	
 	float gravityAcceleration = 0;
+	
+	// ”òãÄ’†
+	if (GetPlayerCharacter()->GetCharacterState() == ESF_CharacterState::Fly)
+	{
+		airborneTime = 0;
+		gravityAcceleration = 0;
+		ResetSpeedBias();
+		return;
+	}
+	
 	if (UnderCheck())
 	{
 		airborneTime = 0;
@@ -172,7 +182,7 @@ void UA_MovementInput::UpdateGravity(float DeltaTime)
 			bDive = true;
 			gravityAcceleration = diveGravity;
 			SetDiveSpeedBias();
-			UE_LOG(LogTemp, Log, TEXT("Dive : moveComp : diveThreshold"));
+			//UE_LOG(LogTemp, Log, TEXT("Dive : moveComp : diveThreshold"));
 		
 			if (IsValid(GetMainCamera()))
 			{
@@ -183,7 +193,7 @@ void UA_MovementInput::UpdateGravity(float DeltaTime)
 		else
 		{
 			bDive = false;
-		 	UE_LOG(LogTemp, Log, TEXT("Dive : moveComp : UpdateGravity"));
+		 	//UE_LOG(LogTemp, Log, TEXT("Dive : moveComp : UpdateGravity"));
 			GetMainCamera()->SetViewPoint(GetPlayerCharacter()->GetActorLocation());
 
 			gravityAcceleration = 0.5f * gravity * gravityBias * pow(airborneTime, 2) * TIME;
@@ -217,7 +227,7 @@ void UA_MovementInput::UpdateGravity(float DeltaTime)
 /// @param DeltaTime
 void UA_MovementInput::UpdateFly(float DeltaTime)
 {
-	//if (!bFly)return;
+	if (!bFly)return;
 
 	//// •ûŒüŽæ“¾
 	//AGSFCamera* camera = Cast<AGSFGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->camera;

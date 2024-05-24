@@ -62,7 +62,7 @@ public:
 
 private:
 	// ISF_DamageableInterface を介して継承されました
-	//virtual void GetDamage(int32 damage) override;
+	virtual void GetDamage(int32 damage) override;
 	/// @brief プレイヤーの状態を常に変更
 	void UpdateSetPlayerState();
 
