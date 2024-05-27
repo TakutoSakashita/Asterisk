@@ -44,7 +44,7 @@ public:
 	void ResetAirControlledBias() { airControllBias = 1.f; }
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UPROPERTY(EditAnywhere, Category = "Animation")
 	UAnimMontage* ComboMontage;
 	UPROPERTY(BlueprintReadOnly, Category = "Animation")
 	UAnimInstance* AnimInstance;

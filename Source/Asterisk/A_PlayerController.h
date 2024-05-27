@@ -44,14 +44,15 @@ private:
 	void MoveJump();
 
 	/********************AttackInput********************/
-	void BeginNormalAttack();
-	void EndNormalAttack();
+	void BeginShortRangeAttack();
+	void EndShortRangeAttack();
 	void HomingAttack();
 	void LaserAttack();
 
 	void HomingShoot();
 	void LockOn();
-	void LongRangeAttack();
+	void BeginLongRangeAttack();
+	void EndLongRangeAttack();
 
 	///////////////////////////// custom variable
 protected:

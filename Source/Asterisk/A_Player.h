@@ -4,9 +4,9 @@
 #include "A_CharacterBase.h"
 #include "A_Player.generated.h"
 
-//class AA_WeaponBase;
 class AA_MainCamera;
 class UA_MovementInput;
+class UA_AttackInput;
 
 UCLASS()
 class ASTERISK_API AA_Player : public AA_CharacterBase
@@ -30,14 +30,15 @@ public:
 	void MoveDash();
 	void StopMoveDash();
 
-	void BeginNormalAttack();
-	void EndNormalAttack();
+	void BeginShortRangeAttack();
+	void EndShortRangeAttack();
 	void HomingAttack();
 	void LaserAttack();
 
 	void HomingShoot();
 	void LockOn();
-	void LongRangeAttack();
+	void BeginLongRangeAttack();
+	void EndLongRangeAttack();
 
 	// êUÇËå¸Ç´ë¨ìx
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -49,10 +50,7 @@ public:
 	//ASF_EnemyBase* GetLockOnTarget();
 	//bool GetLockOnStatus();
 	//
-	//UFUNCTION(BlueprintCallable)
-	//	ASF_WeaponBase* GetWeapon() const { return Weapon; };
-	//UPROPERTY(BlueprintReadWrite)
-	//	ASF_WeaponBase* Weapon = nullptr;
+
 
 	////////////////////// BlueprintImplementableEvent
 	UFUNCTION(BlueprintImplementableEvent)
@@ -69,4 +67,6 @@ private:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
 		UA_MovementInput* MovementInputComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
+		UA_AttackInput* AttackInputComponent;
 };

@@ -42,14 +42,15 @@ void AA_PlayerController::SetupInputComponent()
 	InputComponent->BindAction("MoveJump", IE_Pressed, this, &AA_PlayerController::MoveJump);
 
 	//attack process
-	InputComponent->BindAction("BeginNormalAttack", IE_Pressed, this, &AA_PlayerController::BeginNormalAttack);
-	InputComponent->BindAction("EndNormalAttack", IE_Released, this, &AA_PlayerController::EndNormalAttack);
+	InputComponent->BindAction("BeginShortRangeAttack", IE_Pressed, this, &AA_PlayerController::BeginShortRangeAttack);
+	InputComponent->BindAction("EndShortRangeAttack", IE_Released, this, &AA_PlayerController::EndShortRangeAttack);
 	InputComponent->BindAction("HomingAttack", IE_Pressed, this, &AA_PlayerController::HomingAttack);
 	InputComponent->BindAction("LaserAttack", IE_Pressed, this, &AA_PlayerController::LaserAttack);
 
 	InputComponent->BindAction("HomingShoot", IE_Pressed, this, &AA_PlayerController::HomingShoot);
 	InputComponent->BindAction("LockOn", IE_Pressed, this, &AA_PlayerController::LockOn);
-	InputComponent->BindAction("LongRangeAttack", IE_Pressed, this, &AA_PlayerController::LongRangeAttack);
+	InputComponent->BindAction("BeginLongRangeAttack", IE_Pressed, this, &AA_PlayerController::BeginLongRangeAttack);
+	InputComponent->BindAction("EndLongRangeAttack", IE_Released, this, &AA_PlayerController::EndLongRangeAttack);
 }
 
 ///////////////////////// camera
@@ -103,22 +104,24 @@ void AA_PlayerController::StopMoveDash()
 }
 
 ///////////////////////// Player attack
-void AA_PlayerController::BeginNormalAttack()
+void AA_PlayerController::BeginShortRangeAttack()
 {
 	if (!m_pCharacter) return;
-	//m_pCharacter->BeginNormalAttack();
+	//UE_LOG(LogTemp, Warning, TEXT("BeginShortRangeAttack"));
+
+	m_pCharacter->BeginShortRangeAttack();
 }
 
-void AA_PlayerController::EndNormalAttack()
+void AA_PlayerController::EndShortRangeAttack()
 {
 	if (!m_pCharacter) return;
-	//m_pCharacter->EndNormalAttack();
+	m_pCharacter->EndShortRangeAttack();
 }
 
 void AA_PlayerController::HomingAttack()
 {
 	if (!m_pCharacter) return;
-	//m_pCharacter->HomingAttack();
+	m_pCharacter->HomingAttack();
 }
 
 void AA_PlayerController::HomingShoot()
@@ -130,7 +133,7 @@ void AA_PlayerController::HomingShoot()
 void AA_PlayerController::LaserAttack()
 {
 	if (!m_pCharacter) return;
-	//m_pCharacter->LaserAttack();
+	m_pCharacter->LaserAttack();
 }
 
 void AA_PlayerController::LockOn()
@@ -158,7 +161,14 @@ void AA_PlayerController::LockOn()
 	//m_pCharacter->LockOn();
 }
 
-void AA_PlayerController::LongRangeAttack()
+void AA_PlayerController::BeginLongRangeAttack()
 {
-	//m_pCharacter->LongRangeAttack();
+	if (!m_pCharacter) return;
+	m_pCharacter->BeginLongRangeAttack();
+}
+
+void AA_PlayerController::EndLongRangeAttack()
+{
+	if (!m_pCharacter) return;
+	m_pCharacter->EndLongRangeAttack();
 }

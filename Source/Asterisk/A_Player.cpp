@@ -4,6 +4,7 @@
 #include "A_GameMode.h"
 #include "A_PlayerController.h"
 #include "A_MovementInput.h"
+#include "A_AttackInput.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -16,6 +17,7 @@ AA_Player::AA_Player()
 
 	// コンポーネント生成
 	MovementInputComponent = CreateDefaultSubobject<UA_MovementInput>(TEXT("MovementInputComponent"));
+	AttackInputComponent = CreateDefaultSubobject<UA_AttackInput>(TEXT("AttackInputComponent"));
 }
 
 void AA_Player::BeginPlay()
@@ -102,9 +104,6 @@ void AA_Player::Tick(float DeltaTime)
 void AA_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	//if (ASF_GameMode* const SF_GameMode = Cast<ASF_GameMode>(UGameplayStatics::GetGameMode(GetWorld())))
-	//	SF_GameMode->SetupPlayerInputComponent(PlayerInputComponent);
 }
 
 void AA_Player::MoveForward(const float InValue)
@@ -143,14 +142,16 @@ void AA_Player::MoveJump()
 	MovementInputComponent->MoveJump();
 }
 
-void AA_Player::BeginNormalAttack()
+void AA_Player::BeginShortRangeAttack()
 {
-
+	if (!AttackInputComponent) return;
+	AttackInputComponent->BeginShortRangeAttack();
 }
 
-void AA_Player::EndNormalAttack()
+void AA_Player::EndShortRangeAttack()
 {
-
+	if (!AttackInputComponent) return;
+	AttackInputComponent->EndShortRangeAttack();
 }
 
 void AA_Player::HomingAttack()
@@ -173,9 +174,16 @@ void AA_Player::LockOn()
 
 }
 
-void AA_Player::LongRangeAttack()
+void AA_Player::BeginLongRangeAttack()
 {
+	if (!AttackInputComponent) return;
+	AttackInputComponent->BeginLongRangeAttack();
+}
 
+void AA_Player::EndLongRangeAttack()
+{
+	if (!AttackInputComponent) return;
+	AttackInputComponent->EndLongRangeAttack();
 }
 
 //ASF_EnemyBase* ASF_Player::GetLockOnTarget()
