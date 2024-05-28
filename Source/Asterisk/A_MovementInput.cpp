@@ -41,6 +41,14 @@ void UA_MovementInput::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	UpdateFly(DeltaTime);
 	// d—Í
 	UpdateGravity(DeltaTime);
+
+	if (GetPlayerCharacter()->GetCharacterState() == ESF_CharacterState::Fly)
+	{
+		if (!AnimInstance->Montage_IsPlaying(ComboMontage))
+		{
+			GetPlayerCharacter()->PlayAnimMontage(ComboMontage, 1.0f, "Fly");
+		}
+	}
 }
 
 void UA_MovementInput::MoveForward(const float InValue)
@@ -84,12 +92,18 @@ void UA_MovementInput::MoveDash()
 	AddForce(GetPlayerCharacter()->GetActorForwardVector());
 
 	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = MaxAcceleration;
+	
+	AnimInstance = GetPlayerCharacter()->GetMesh()->GetAnimInstance();
+
+	GetPlayerCharacter()->PlayAnimMontage(ComboMontage, 1.0f, "Fly");
+	
 }
 
 void UA_MovementInput::StopMoveDash()
 {
 	if (!GetPlayerCharacter()) return;
 	GetPlayerCharacter()->SetCharacterState(ESF_CharacterState::Normal);
+	
 	AnimInstance = GetPlayerCharacter()->GetMesh()->GetAnimInstance();
 
 	GetPlayerCharacter()->GetCharacterMovement()->MaxFlySpeed = InitAcceleration;
@@ -102,6 +116,13 @@ void UA_MovementInput::MoveJump()
 	if (!GetMainCamera()) return;
 
 	m_pCharacter->GetCharacterMovement()->Velocity = FVector::Zero();
+
+	AnimInstance = GetPlayerCharacter()->GetMesh()->GetAnimInstance();
+
+	if (!AnimInstance->Montage_IsPlaying(ComboMontage))
+	{
+		GetPlayerCharacter()->PlayAnimMontage(ComboMontage, 1.0f, "Avoid");
+	}
 
 	// “ü—Í•ûŒü‚ÉˆÚ“®
 	//m_pCharacter->AddMovementInput(m_pCharacter->GetActorUpVector(), InValue);
